@@ -65,7 +65,7 @@ REM ============================================================
 REM KIEM TRA MICROSOFT VISUAL C++ REDISTRIBUTABLE (MSVC Runtime)
 REM ============================================================
 if not exist "%SystemRoot%\System32\vcruntime140.dll" (
-    echo [!] MAY NAY CHUA CAI "Microsoft Visual C++ Redistributable" (thieu vcruntime140.dll).
+    echo [!] MAY NAY CHUA CAI Microsoft Visual C++ Redistributable - thieu vcruntime140.dll.
     echo     Day la thu vien bat buoc de chay Electron va cac native module.
     echo     Dang tien hanh tu dong tai va cai dat tu Microsoft...
     echo     Vui long doi trong giay lat...
@@ -106,7 +106,7 @@ REM Kiem tra neu node_modules da co nhung thieu Electron binary do loi truoc do
 if "%NEED_INSTALL%"=="0" (
     if not exist "node_modules\electron\dist\electron.exe" (
         if not exist "apps\web\node_modules\electron\dist\electron.exe" (
-            echo     [!] Phat hien node_modules bi thieu Electron binary (do loi thieu VC++ truoc do).
+            echo     [!] Phat hien node_modules bi thieu Electron binary do loi thieu VC truoc do.
             set "NEED_INSTALL=1"
             echo     Dang don dep node_modules loi de chuan bi tai lai...
             if exist "node_modules" rmdir /s /q "node_modules" >nul 2>&1
