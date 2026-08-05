@@ -72,7 +72,7 @@ if "%HAS_VC_REDIST%"=="0" (
     echo [!] MAY NAY THIEU THU VIEN MICROSOFT VISUAL C++ REDISTRIBUTABLE.
     echo     Day la thu vien bat buoc de chay Electron va cac native module tren Windows.
     echo     Dang tai va tu dong mo trinh cai dat...
-    echo     Vui long chon 'Yes' khi he thong hoi quyen Administrator (UAC).
+    echo     Vui long chon 'Yes' khi he thong hoi quyen Administrator UAC.
     echo.
     
     powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile '$env:TEMP\vc_redist.x64.exe'; Start-Process -FilePath '$env:TEMP\vc_redist.x64.exe' -ArgumentList '/install /passive /norestart' -Verb RunAs -Wait"
