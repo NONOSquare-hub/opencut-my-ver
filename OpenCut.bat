@@ -61,6 +61,29 @@ for %%i in ("%BUN_CMD%") do set "BUN_DIR=%%~dpi"
 if "%BUN_DIR:~-1%"=="\" set "BUN_DIR=%BUN_DIR:~0,-1%"
 set "PATH=%BUN_DIR%;%PATH%"
 
+REM ============================================================
+REM KIEM TRA MICROSOFT VISUAL C++ REDISTRIBUTABLE (MSVC Runtime)
+REM ============================================================
+if not exist "%SystemRoot%\System32\vcruntime140.dll" (
+    echo [!] MAY NAY CHUA CAI "Microsoft Visual C++ Redistributable" (thieu vcruntime140.dll).
+    echo     Day la thu vien bat buoc de chay Electron va cac native module.
+    echo     Dang tien hanh tu dong tai va cai dat tu Microsoft...
+    echo     Vui long doi trong giay lat...
+    echo.
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile '$env:TEMP\vc_redist.x64.exe'; Start-Process -FilePath '$env:TEMP\vc_redist.x64.exe' -ArgumentList '/passive /norestart' -Wait"
+    
+    if exist "%SystemRoot%\System32\vcruntime140.dll" (
+        echo.
+        echo     [OK] Da cai dat Microsoft Visual C++ Redistributable thanh cong!
+        echo.
+    ) else (
+        echo.
+        echo     [!] LOI: Cai dat Visual C++ Redistributable khong thanh cong.
+        echo     Ban co the can phai tu tai va cai dat VC++ Redistributable thu cong.
+        echo.
+    )
+)
+
 set "ELECTRON_EXE="
 if exist "node_modules\electron\dist\electron.exe" set "ELECTRON_EXE=node_modules\electron\dist\electron.exe"
 if exist "apps\web\node_modules\electron\dist\electron.exe" set "ELECTRON_EXE=apps\web\node_modules\electron\dist\electron.exe"
@@ -79,14 +102,32 @@ set "NEED_INSTALL=0"
 if not exist "node_modules" set "NEED_INSTALL=1"
 if not exist "apps\web\node_modules" set "NEED_INSTALL=1"
 
+REM Kiem tra neu node_modules da co nhung thieu Electron binary do loi truoc do
+if "%NEED_INSTALL%"=="0" (
+    if not exist "node_modules\electron\dist\electron.exe" (
+        if not exist "apps\web\node_modules\electron\dist\electron.exe" (
+            echo     [!] Phat hien node_modules bi thieu Electron binary (do loi thieu VC++ truoc do).
+            set "NEED_INSTALL=1"
+            echo     Dang don dep node_modules loi de chuan bi tai lai...
+            if exist "node_modules" rmdir /s /q "node_modules" >nul 2>&1
+            if exist "apps\web\node_modules" rmdir /s /q "apps\web\node_modules" >nul 2>&1
+        )
+    )
+)
+
 if "%NEED_INSTALL%"=="1" (
-    echo     Chua co thu vien. Dang cai dat ...
+    echo     Chua co thu vien. Dang tien hanh cai dat ...
     call "%BUN_CMD%" install
     if errorlevel 1 (
         echo [!] CAI DAT THU VIEN THAT BAI.
         pause
         exit /b 1
     )
+    
+    REM Cap nhat lai ELECTRON_EXE sau khi cai dat thanh cong
+    if exist "node_modules\electron\dist\electron.exe" set "ELECTRON_EXE=node_modules\electron\dist\electron.exe"
+    if exist "apps\web\node_modules\electron\dist\electron.exe" set "ELECTRON_EXE=apps\web\node_modules\electron\dist\electron.exe"
+    
     echo     Da cai dat thu vien xong.
 ) else (
     echo     Da co san thu vien.
