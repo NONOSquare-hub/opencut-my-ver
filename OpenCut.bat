@@ -64,24 +64,30 @@ set "PATH=%BUN_DIR%;%PATH%"
 REM ============================================================
 REM KIEM TRA MICROSOFT VISUAL C++ REDISTRIBUTABLE (MSVC Runtime)
 REM ============================================================
-if not exist "%SystemRoot%\System32\vcruntime140.dll" (
-    echo [!] MAY NAY CHUA CAI Microsoft Visual C++ Redistributable - thieu vcruntime140.dll.
-    echo     Day la thu vien bat buoc de chay Electron va cac native module.
-    echo     Dang tien hanh tu dong tai va cai dat tu Microsoft...
-    echo     Vui long doi trong giay lat...
+set "HAS_VC_REDIST=1"
+if not exist "%SystemRoot%\System32\vcruntime140.dll" set "HAS_VC_REDIST=0"
+if not exist "%SystemRoot%\System32\msvcp140.dll" set "HAS_VC_REDIST=0"
+
+if "%HAS_VC_REDIST%"=="0" (
+    echo [!] MAY NAY THIEU THU VIEN MICROSOFT VISUAL C++ REDISTRIBUTABLE.
+    echo     Day la thu vien bat buoc de chay Electron va cac native module tren Windows.
+    echo     Dang tai va tu dong mo trinh cai dat...
+    echo     Vui long chon 'Yes' khi he thong hoi quyen Administrator (UAC).
     echo.
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile '$env:TEMP\vc_redist.x64.exe'; Start-Process -FilePath '$env:TEMP\vc_redist.x64.exe' -ArgumentList '/passive /norestart' -Wait"
     
-    if exist "%SystemRoot%\System32\vcruntime140.dll" (
-        echo.
-        echo     [OK] Da cai dat Microsoft Visual C++ Redistributable thanh cong!
-        echo.
-    ) else (
-        echo.
-        echo     [!] LOI: Cai dat Visual C++ Redistributable khong thanh cong.
-        echo     Ban co the can phai tu tai va cai dat VC++ Redistributable thu cong.
-        echo.
-    )
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile '$env:TEMP\vc_redist.x64.exe'; Start-Process -FilePath '$env:TEMP\vc_redist.x64.exe' -ArgumentList '/install /passive /norestart' -Verb RunAs -Wait"
+    
+    echo.
+    echo ============================================================
+    echo [OK] DA KICH HOAT CAI DAT VISUAL C++ REDISTRIBUTABLE!
+    echo ============================================================
+    echo De Windows cap nhat va nhan dien thu vien moi:
+    echo   1. Vui long DONG cua so CMD nay.
+    echo   2. Nhap dup chuot KHOI DONG LAI file "OpenCut.bat".
+    echo ============================================================
+    echo.
+    pause
+    exit
 )
 
 set "ELECTRON_EXE="
