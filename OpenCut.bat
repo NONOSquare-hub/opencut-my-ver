@@ -33,7 +33,7 @@ echo     Dang tien hanh tu dong tai va cai dat Bun cho Windows...
 echo     Vui long cho trong giay lat...
 echo.
 
-powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; irm bun.sh/install.ps1 | iex"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; irm bun.sh/install.ps1 | iex"
 
 if exist "%USERPROFILE%\.bun\bin\bun.exe" (
     set "BUN_CMD=%USERPROFILE%\.bun\bin\bun.exe"
@@ -123,12 +123,19 @@ echo WshShell.Run "cmd /c cd /d """ ^& WshShell.CurrentDirectory ^& """ && bun r
 
 wscript "scripts\launch_server.vbs"
 
-REM Mo ung dung GUI Electron truc tiep
+REM Mo ung dung GUI Electron truc tiep (chay dong bo de hien thi log neu bi crash hoac loi)
 if defined ELECTRON_EXE (
-    start "" "%ELECTRON_EXE%" apps\web
+    call "%ELECTRON_EXE%" apps\web
 ) else (
-    start "" "%BUN_CMD%" run desktop
+    call "%BUN_CMD%" run desktop
 )
 
-REM Tu dong tat cua so CMD ngay lap tuc
+REM Giu lai cua so CMD neu xay ra loi khi chay Electron
+if errorlevel 1 (
+    echo.
+    echo [!] KHOI DONG UNG DUNG DESKTOP APPLICATION BI LOI HOAC CRASH.
+    echo     Vui long kiem tra cac dong thong bao loi o tren de biet nguyen nhan.
+    pause
+)
+
 exit
