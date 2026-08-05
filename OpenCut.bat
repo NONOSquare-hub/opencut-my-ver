@@ -28,8 +28,25 @@ if exist "%USERPROFILE%\.bun\bin\bun.exe" (
 )
 
 echo.
-echo [!] MAY NAY CHUA CAI "Bun".
-echo     Trang huong dan cai se tu mo trong gan day.
+echo [!] MAY NAY CHUA CAI "Bun" runtime.
+echo     Dang tien hanh tu dong tai va cai dat Bun cho Windows...
+echo     Vui long cho trong giay lat...
+echo.
+
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; irm bun.sh/install.ps1 | iex"
+
+if exist "%USERPROFILE%\.bun\bin\bun.exe" (
+    set "BUN_CMD=%USERPROFILE%\.bun\bin\bun.exe"
+    echo.
+    echo     [OK] Da tu dong tai va cai dat Bun thanh cong!
+    echo.
+    goto :found_bun
+)
+
+echo.
+echo [!] Khong the tu dong cai dat Bun.
+echo     Trang web huong dan cai dat se tu dong mo.
+echo     Vui long tu cai dat Bun, sau do dong cua so nay va chay lai OpenCut.bat.
 start "" "https://bun.sh/docs/installation"
 pause
 exit /b 1
