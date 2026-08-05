@@ -36,6 +36,7 @@ Thanks to [Vercel](https://vercel.com?utm_source=github-opencut&utm_campaign=oss
 > ⚡ **Quick Windows Setup**:
 > - **Run Dev**: Double-click **`OpenCut.bat`** in the root directory. It automatically checks Bun runtime, installs dependencies, sets up `.env.local`, runs the Next.js server in the background, and opens the Electron GUI.
 > - **Build Installer**: Run **`Build-OpenCut.ps1`** in PowerShell to build a standalone Windows Installer (`.exe`). Output will be saved in `C:\temp\opencut-dist\`.
+> - **Uninstall & Clean**: Double-click **`Uninstall-OpenCut.bat`** in the root directory. It stops all background processes, frees up ports, and completely cleans up heavy folders (`node_modules`, `.next`), configuration files, and application cache.
 
 ### Prerequisites
 

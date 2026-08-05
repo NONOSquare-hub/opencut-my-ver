@@ -125,6 +125,18 @@ Tại đây, bạn sẽ tìm thấy file cài đặt dạng:
 
 ---
 
+## 🗑️ Hướng Dẫn Gỡ Cài Đặt & Dọn Dẹp Môi Trường
+
+Nếu bạn không còn phát triển hoặc muốn xóa sạch toàn bộ môi trường chạy thử của OpenCut trên máy tính:
+1. Nhấp đúp chuột chạy file **`Uninstall-OpenCut.bat`** ở thư mục gốc của dự án.
+2. Script sẽ tự động:
+   - Dừng mọi tiến trình chạy ngầm liên quan (Electron, Next.js server, Bun) để giải phóng RAM và CPU.
+   - Xóa các thư mục thư viện tạm thời dung lượng rất nặng (`node_modules`, `.next`).
+   - Xóa các file cấu hình và script khởi động tạm thời (`.env.local`, `launch_server.vbs`).
+   - Hỏi ý kiến bạn để tự động xóa sạch dữ liệu ứng dụng, dự án tạm thời & bộ nhớ đệm cache (`AppData\OpenCut Classic` và thư mục `data`) khỏi ổ cứng máy tính.
+
+---
+
 ## ⚠️ Các Lỗi Thường Gặp & Cách Khắc Phục (Troubleshooting)
 
 1. **Lỗi `EPERM: operation not permitted` khi build:**
