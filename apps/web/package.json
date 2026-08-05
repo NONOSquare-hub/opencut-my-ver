@@ -129,6 +129,15 @@
     "win": {
       "target": "nsis"
     },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "OpenCut Classic",
+      "uninstallDisplayName": "OpenCut Classic (Gỡ cài đặt)",
+      "deleteAppDataOnUninstall": true
+    },
     "extraMetadata": {
       "main": "electron/main.js"
     }
